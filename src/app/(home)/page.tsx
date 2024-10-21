@@ -1,80 +1,17 @@
 // src/app/page.tsx
 
-
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
+import AuthHomeView from "@/sections/AuthHomeView";
+import NonAuthHomeView from "@/sections/NonAuthHomeView";
 
 export const metadata = { title: "Domov | ZoškaSnap" };
 
-export default function Home() {
+export default async function HomePage() {
+  // Fetch session on the server
+  const session = await getServerSession(authOptions);
 
-  return (
-    <Container> 
-      <Typography> Domovská stránka </Typography>
-    </Container>
-
-  );
+  // Conditionally render authenticated or non-authenticated home view
+  return session ? <AuthHomeView session={session} /> : <NonAuthHomeView />;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* 
-
-
-// import HomeIcon from "@mui/icons-material/Home";
-// import SearchIcon from "@mui/icons-material/Search";
-// import AddCircleIcon from "@mui/icons-material/AddCircle";
-// import NotificationsIcon from "@mui/icons-material/Notifications";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import { useState } from "react";
-
-//   const [navValue, setNavValue] = useState(0);
-    // <Container maxWidth="sm" sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-    //   <Box component="main" sx={{ flexGrow: 1, paddingTop: 2 }}>
-    //     <Typography variant="h4" gutterBottom>
-    //       Vitajte na SnapZoška!
-    //     </Typography>
-    //     <Typography variant="body1">
-    //       Toto je vaša úvodná stránka. Tu nájdete príspevky od používateľov, pridáte vlastné alebo preskúmate nové príspevky.
-    //     </Typography>
-    //   </Box>
-
-    //   {/* Bottom Navigation */}
-    //   <BottomNavigation
-    //     value={navValue}
-    //     onChange={(event, newValue) => setNavValue(newValue)}
-    //     showLabels
-    //   >
-    //     <BottomNavigationAction label="Domov" icon={<HomeIcon />} />
-    //     <BottomNavigationAction label="Hľadať" icon={<SearchIcon />} />
-    //     <BottomNavigationAction label="Pridať" icon={<AddCircleIcon />} />
-    //     <BottomNavigationAction label="Notifikácie" icon={<NotificationsIcon />} />
-    //     <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} />
-    //   </BottomNavigation>
-    // </Container> */}
