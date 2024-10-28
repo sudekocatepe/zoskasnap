@@ -1,16 +1,9 @@
-// src/app/auth/odhlasenie/page.tsx
 
-import Typography from "@mui/material/Typography";
 
-export const metadata = { title: "Odhlásenie užívateľa | ZoškaSnap" };
+import SignOutView from "../../../sections/SignOutView";
 
-export default function SignOut() {
+export const metadata = { title: "Odhlásenie | ZoškaSnap" };
 
-  return (
-
-      <Typography> Odhlásenie užívateľa </Typography>
-
-  );
+export default function SignOutPage() {
+  return <SignOutView />;
 }
-
-
