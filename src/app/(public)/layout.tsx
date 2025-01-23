@@ -1,14 +1,12 @@
 // src/app/(public)/layout.tsx
+import Container from "@mui/material/Container";
 
-export default function PublicLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      {/* Empty layout */}
-      <main>{children}</main>
-    </div>
+    <Container sx={{ padding: 3 }}>
+      {children} {/* Render public pages */}
+    </Container>
   );
-}
+};
+
+export default MainLayout;

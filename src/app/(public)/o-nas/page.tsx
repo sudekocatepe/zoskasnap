@@ -1,16 +1,11 @@
-// src/app/o-nas/page.tsx
+// src/app/(public)/about-us/page.tsx
 
+// Project imports
+import AboutContent from "../../(public)/o-nas/AboutContent";
 
-import Typography from "@mui/material/Typography";
+export const metadata = { title: "About Us | SnapZoška" };
 
-export const metadata = { title: "O nás | ZoškaSnap" };
+// About Us Page Component
+const AboutUsPage = () => <AboutContent />;
 
-export default function AboutUs() {
-
-  return (
-
-      <Typography> O nás </Typography>
-
-  );
-}
-
+export default AboutUsPage;

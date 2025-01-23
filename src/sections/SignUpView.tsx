@@ -1,21 +1,22 @@
-// src/sections/SignUpView.tsx
-
 "use client";
 
+import React, { useState } from "react";
 import {
   Button,
-  //Checkbox,
   Container,
-  //FormControlLabel,
-  //TextField,
   Typography,
-  //Divider,
+  Link,
 } from "@mui/material";
 import { signIn } from "next-auth/react";
 import GoogleIcon from "@mui/icons-material/Google";
-//import FacebookIcon from "@mui/icons-material/Facebook";
 
 export default function SignUpView() {
+  const [agreed, setAgreed] = useState(false);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAgreed(event.target.checked);
+  };
+
   return (
     <Container
       maxWidth="xs"
@@ -35,12 +36,7 @@ export default function SignUpView() {
         Registrácia
       </Typography>
 
-      {/* Sign-in link */}
-      <Typography variant="body1" sx={{ mb: 6 }}>
-        Už máte účet? <a href="/auth/prihlasenie">Prihláste sa</a>
-      </Typography>
-
-      {/* Google Sign Up */}
+      {/* Google Sign-Up Button */}
       <Button
         variant="outlined"
         fullWidth
@@ -52,8 +48,34 @@ export default function SignUpView() {
       </Button>
 
 
+      {/* GDPR agreement */}
+      <div style={{ marginBottom: "16px" }}>
+        <input
+          type="checkbox"
+          id="gdpr"
+          checked={agreed}
+          onChange={handleCheckboxChange}
+        />
+        <label htmlFor="gdpr">
+          I agree with{" "}
+          <Link href="/gdpr" sx={{ textDecoration: "none", color: "primary.main" }}>
+            GDPR
+          </Link>{" "}
+          and{" "}
+          <Link href="/podmienky" sx={{ textDecoration: "none", color: "primary.main" }}>
+            terms of use
+          </Link>
+        </label>
+      </div>
+
+
+      {/* Message for users with an existing account */}
+      <Typography variant="body2" sx={{ mt: 2 }}>
+        Already have an account?{" "}
+        <Link href="/auth/prihlasenie" sx={{ textDecoration: "none", color: "primary.main" }}>
+          Go to Sign In
+        </Link>
+      </Typography>
     </Container>
   );
 }
-
-

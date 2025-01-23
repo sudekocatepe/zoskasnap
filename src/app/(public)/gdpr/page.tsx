@@ -1,15 +1,11 @@
+// src/app/(public)/privacy-policy/page.tsx
 
-// src/app/gdpr/page.tsx
+// Project imports
+import PrivacyPolicyContent from "../../(public)/gdpr/PrivacyPolicyContent";
 
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+export const metadata = { title: "Privacy Policy | SnapZoška" };
 
-export const metadata = {title: "GDPR | ZoškaSnap"};
+// Privacy Policy Page Component
+const PrivacyPolicyPage = () => <PrivacyPolicyContent />;
 
-export default function GDPR() {
-  return (
-    <Container>
-      <Typography> Stránka s GDPR informáciami </Typography>
-    </Container>
-  );
-}
+export default PrivacyPolicyPage;
