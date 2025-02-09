@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/NavBar";
 import AuthProvider from "../components/AuthProvider";
-import ThemeProvider from "../components/ThemeProvider";
+import ThemeProviderWrapper from "../components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "SnapZoška",
@@ -11,20 +11,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="sk">
       <body>
-        <AuthProvider>
-          <ThemeProvider>
+        <ThemeProviderWrapper> {/* Wrap everything in the theme provider */}
+          <AuthProvider>
             <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-              <Navbar />
               <main style={{ flexGrow: 1 }}>{children}</main>
             </div>
-          </ThemeProvider>
-        </AuthProvider>
+            <Navbar />
+          </AuthProvider>
+        </ThemeProviderWrapper>
       </body>
     </html>
   );

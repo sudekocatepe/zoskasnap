@@ -1,11 +1,17 @@
-// src/app/terms-and-conditions/page.tsx
+// src/app/podmienky/page.tsx
 
-// Project imports
-import TermsContent from "../../(public)/podmienky/TermContent";
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
-export const metadata = { title: "Terms of Service | SnapZoška" };
+export const metadata = { title: "Podmienky | ZoškaSnap"}
 
-// Terms and Conditions Page Component
-const TermsPage = () => <TermsContent />;
 
-export default TermsPage;
+export default function TermsConditions() {
+  return (
+
+    <Container>
+        <Typography>Podmienky používania</Typography>
+    </Container>
+
+  );
+}

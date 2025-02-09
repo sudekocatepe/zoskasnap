@@ -17,8 +17,9 @@
     "@mui/icons-material": "^6.1.0",
     "@mui/material": "^6.1.1",
     "@prisma/client": "^5.22.0",
-    "next": "14.2.11",
-    "next-auth": "^4.24.8",
+    "i": "^0.3.7",
+    "next": "^14.2.23",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18"
   },

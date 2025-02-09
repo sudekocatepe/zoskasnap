@@ -1,76 +1,40 @@
 "use client";
 
-// ThemeProvider.tsx
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import React, { useState, useEffect, createContext, useContext } from "react";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { lightTheme, darkTheme } from "../configs/theme";
 
-interface ColorModeContextType {
-  toggleColorMode: () => void;
-  mode: "light" | "dark";
-}
+const ThemeToggleContext = createContext<() => void>(() => {});
+export const useThemeToggle = () => useContext(ThemeToggleContext);
 
-const ColorModeContext = createContext<ColorModeContextType>({
-  toggleColorMode: () => {},
-  mode: "light",
-});
+const ThemeProviderWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-export const useColorMode = () => useContext(ColorModeContext);
+  // Load theme from localStorage when the component mounts
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+    }
+  }, []);
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<"light" | "dark">("light");
-
-  const toggleColorMode = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+  // Toggle theme and store the preference
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => {
+      const newTheme = !prev;
+      localStorage.setItem("theme", newTheme ? "dark" : "light"); // Save preference
+      return newTheme;
+    });
   };
 
-  const theme = createTheme({
-    palette: {
-      mode,
-      primary: {
-        main: mode === "light" ? '#7b1fa2' : '#b39ddb', // Muted violet colors
-      },
-      background:
-        {default: mode === "light" ? '#ffffff' : '#303030', // Lighter background in dark mode
-        paper: mode === "light" ? '#ffffff' : '#424242', // Lighter paper background in dark mode}   
-        },
-    },
-    components: {
-      MuiBottomNavigationAction: {
-        styleOverrides: {
-          root: {
-            '&.Mui-selected': {
-              color: mode === "light" ? '#7b1fa2' : '#b39ddb', // Muted violet colors
-            },
-            '&:hover': {
-              color: mode === "light" ? '#7b1fa2' : '#b39ddb', // Muted violet colors
-            },
-          },
-        },
-      },
-      MuiCard: {
-        styleOverrides: {
-          root: {
-            ...(mode === 'light' && {
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Black box shadow in light mode
-            }),
-            ...(mode === 'dark' && {
-              boxShadow: '0 4px 8px rgba(255, 255, 255, 0.2)', // White box shadow in dark mode
-            }),
-          },
-        },
-      },
-    },
-  });
-
   return (
-    <ColorModeContext.Provider value={{ toggleColorMode, mode }}>
-      <MuiThemeProvider theme={theme}>
+    <ThemeToggleContext.Provider value={toggleTheme}>
+      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <CssBaseline />
         {children}
-      </MuiThemeProvider>
-    </ColorModeContext.Provider>
+      </ThemeProvider>
+    </ThemeToggleContext.Provider>
   );
 };
 
-export default ThemeProvider;
+export default ThemeProviderWrapper;
