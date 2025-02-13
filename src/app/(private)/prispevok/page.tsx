@@ -1,34 +1,25 @@
-import { PrismaClient, Post } from "@prisma/client";
 import Typography from "@mui/material/Typography";
-import Image from "next/image";
 import { Paper } from "@mui/material";
+import { getPosts } from "./actions";
 
-// Function to shuffle an array
-function shuffleArray(array: Post[]): Post[] {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-  }
-  return array;
-}
+
+type Post = {
+  id: string;
+  userId: string;
+  imageUrl: string;
+  caption: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  user: {
+    name: string | null;
+    image: string | null;
+  };
+};
 
 export const metadata = { title: "Zoznam prispevkov | INSTAGRAM" };
 
 export default async function PostsList() {
-  "use server"; // This ensures the code only runs on the server
-
-  const prisma = new PrismaClient(); // Move Prisma inside the function
-  // Explicitly typing the posts result as Post[]
-  const posts = await prisma.post.findMany({
-    select: {
-      id: true,
-      imageUrl: true,
-      caption: true,
-    },
-  }) as Post[]; // <-- Adding type assertion here
-
-  // Shuffle the posts array to randomize the order
-  const shuffledPosts = shuffleArray(posts);
+  const posts = await getPosts();
 
   return (
     <div style={{ paddingBottom: "80px", paddingLeft: "16px", paddingRight: "16px" }}>
@@ -45,7 +36,7 @@ export default async function PostsList() {
           maxWidth: "1200px", // Added a max width to ensure the content doesn't stretch too wide
         }}
       >
-        {shuffledPosts.map((post) => (
+        {posts.map((post: Post) => (
           <Paper
             key={post.id}
             elevation={3}
@@ -61,10 +52,10 @@ export default async function PostsList() {
               justifyContent: "center",
             }}
           >
-            <Image
+            <img
               src={post.imageUrl}
               alt={post.caption || "Post image"}
-              width={300}
+              width={300} 
               height={300}
               style={{ objectFit: "cover", borderRadius: "8px" }}
             />
